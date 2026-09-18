@@ -1,0 +1,11 @@
+# Use an official openjdk runtime image as a parent base layer
+FROM openjdk:21-slim
+
+# Copy the built JAR application file into the container workspace
+COPY target/salesforce-crud-backend-0.0.1-SNAPSHOT.jar app.jar
+
+# Expose port 8080 to downstream traffic requests
+EXPOSE 8080
+
+# Command to execute the application inside Render
+ENTRYPOINT ["java", "-jar", "app.jar"]
