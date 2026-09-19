@@ -8,21 +8,6 @@ export default function App() {
     return <Dashboard />;
   }
 
-  const handleLoginRedirect = () => {
-    // 1. Checks if running locally or on Vercel production servers
-    const isLocal = window.location.hostname === "localhost";
-    
-    // 2. Grabs the Vercel environment variable value securely, falling back to the live api endpoint string path
-    const baseApiUrl = import.meta.env.VITE_API_BASE_URL || "https://onrender.com";
-    
-    // 3. Triggers the precise auth routing mapping instead of loading the naked base root domain
-    const backendUrl = isLocal
-      ? "http://localhost:8080/api/auth/login"
-      : `${baseApiUrl.replace("/api/salesforce", "")}/api/auth/login`;
-    
-    window.location.href = backendUrl;
-  };
-
   return (
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center",
@@ -32,7 +17,7 @@ export default function App() {
         <h2 style={{ margin: "0 0 16px 0", color: "#333" }}>CloudVandana Portal Gateway</h2>
         <p style={{ color: "#666", marginBottom: "24px" }}>Please log in to synchronize your active Salesforce sandbox workspace.</p>
         <button 
-          onClick={handleLoginRedirect}
+          onClick={() => window.location.href = "http://localhost:8080/api/auth/login"}
           style={{
             padding: "12px 24px", fontSize: "16px", backgroundColor: "#0070d2",
             color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer", fontWeight: "bold"
