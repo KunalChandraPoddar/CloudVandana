@@ -8,6 +8,15 @@ export default function App() {
     return <Dashboard />;
   }
 
+  const handleLoginRedirect = () => {
+    // Automatically routes traffic based on whether you are running locally or in production
+    const backendUrl = window.location.hostname === "localhost"
+      ? "http://localhost:8080/api/auth/login"
+      : "https://onrender.com";
+    
+    window.location.href = backendUrl;
+  };
+
   return (
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center",
@@ -17,7 +26,7 @@ export default function App() {
         <h2 style={{ margin: "0 0 16px 0", color: "#333" }}>CloudVandana Portal Gateway</h2>
         <p style={{ color: "#666", marginBottom: "24px" }}>Please log in to synchronize your active Salesforce sandbox workspace.</p>
         <button 
-          onClick={() => window.location.href = "http://localhost:8080/api/auth/login"}
+          onClick={handleLoginRedirect}
           style={{
             padding: "12px 24px", fontSize: "16px", backgroundColor: "#0070d2",
             color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer", fontWeight: "bold"
