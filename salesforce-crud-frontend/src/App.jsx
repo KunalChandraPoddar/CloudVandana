@@ -9,10 +9,16 @@ export default function App() {
   }
 
   const handleLoginRedirect = () => {
-    // Automatically routes traffic based on whether you are running locally or in production
-    const backendUrl = window.location.hostname === "localhost"
+    // 1. Checks if running locally or on Vercel production servers
+    const isLocal = window.location.hostname === "localhost";
+    
+    // 2. Grabs the Vercel environment variable value securely, falling back to the live api endpoint string path
+    const baseApiUrl = import.meta.env.VITE_API_BASE_URL || "https://onrender.com";
+    
+    // 3. Triggers the precise auth routing mapping instead of loading the naked base root domain
+    const backendUrl = isLocal
       ? "http://localhost:8080/api/auth/login"
-      : "https://onrender.com";
+      : `${baseApiUrl.replace("/api/salesforce", "")}/api/auth/login`;
     
     window.location.href = backendUrl;
   };
