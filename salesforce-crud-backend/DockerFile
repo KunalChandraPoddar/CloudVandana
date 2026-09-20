@@ -8,6 +8,9 @@ COPY salesforce-crud-backend/ ./salesforce-crud-backend/
 # Change directory into the backend project where your pom.xml lives
 WORKDIR /app/salesforce-crud-backend
 
+# FIX: Force Linux execution permissions on the Maven wrapper script explicitly
+RUN chmod +x ./mvnw
+
 # Compile and pack the source code into a pristine production JAR binary file
 RUN ./mvnw clean package -DskipTests
 
