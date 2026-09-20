@@ -1,14 +1,22 @@
-# Use an official, fully supported Eclipse Temurin OpenJDK 21 image
-FROM eclipse-temurin:21-jre-jammy
-
-# Set a working directory inside the container
+# === STAGE 1: Build the Maven Project inside the Cloud ===
+FROM maven:3.9.6-eclipse-temurin-21-jammy AS build
 WORKDIR /app
 
-# Copy the built JAR application file into the container workspace
-COPY salesforce-crud-backend/target/salesforce-crud-backend-0.0.1-SNAPSHOT.jar app.jar
+# Copy your full Java backend project folder layout into the container
+COPY salesforce-crud-backend/ ./salesforce-crud-backend/
 
-# Expose port 8080 to downstream traffic requests
+# Change directory into the backend project where your pom.xml lives
+WORKDIR /app/salesforce-crud-backend
+
+# Compile and pack the source code into a pristine production JAR binary file
+RUN ./mvnw clean package -DskipTests
+
+# === STAGE 2: Spin up the optimized JRE execution container ===
+FROM eclipse-temurin:21-jre-jammy
+WORKDIR /app
+
+# Safely copy the newly built JAR from Stage 1 into this final runtime image
+COPY --from=build /app/salesforce-crud-backend/target/salesforce-crud-backend-0.0.1-SNAPSHOT.jar app.jar
+
 EXPOSE 8080
-
-# Command to execute the application inside Render
 ENTRYPOINT ["java", "-jar", "app.jar"]
