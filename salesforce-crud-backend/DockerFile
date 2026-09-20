@@ -1,8 +1,11 @@
-# Use an official openjdk runtime image as a parent base layer
-FROM openjdk:21-slim
+# Use an official, fully supported Eclipse Temurin OpenJDK 21 image
+FROM eclipse-temurin:21-jre-jammy
+
+# Set a working directory inside the container
+WORKDIR /app
 
 # Copy the built JAR application file into the container workspace
-COPY target/salesforce-crud-backend-0.0.1-SNAPSHOT.jar app.jar
+COPY salesforce-crud-backend/target/salesforce-crud-backend-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose port 8080 to downstream traffic requests
 EXPOSE 8080
