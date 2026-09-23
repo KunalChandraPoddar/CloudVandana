@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 const PAGE_SIZE = 10;
-const API_BASE_URL = "http://localhost:8080/api/salesforce";
+// const API_BASE_URL = "http://localhost:8080/api/salesforce";
+const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:8080/api/salesforce"
+  : "https://onrender.com";
 
 const OBJECT_FIELDS = {
   Account: ["Name", "Phone", "Industry", "Website", "Type"],
