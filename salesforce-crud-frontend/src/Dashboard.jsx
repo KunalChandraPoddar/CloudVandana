@@ -74,8 +74,11 @@ export default function Dashboard() {
       setLoading(true);
 
       try {
+        // const response = await fetch(
+        //   `${API_BASE_URL}/${objectName}?offset=${currentOffset}&limit=${PAGE_SIZE}`
+        // );
         const response = await fetch(
-          `${API_BASE_URL}/${objectName}?offset=${currentOffset}&limit=${PAGE_SIZE}`
+          `${SALESFORCE_API_URL}/${objectName}?offset=${currentOffset}&limit=${PAGE_SIZE}`
         );
 
         if (!response.ok) {
@@ -270,7 +273,7 @@ export default function Dashboard() {
 
             const fields =
               error.fields &&
-              error.fields.length > 0
+                error.fields.length > 0
                 ? ` Fields: ${error.fields.join(", ")}`
                 : "";
 
@@ -381,10 +384,9 @@ export default function Dashboard() {
           getSalesforceErrorMessage(responseText);
 
         alert(
-          `Salesforce rejected the ${
-            method === "PATCH"
-              ? "update"
-              : "operation"
+          `Salesforce rejected the ${method === "PATCH"
+            ? "update"
+            : "operation"
           }:\n\n${errorMessage}`
         );
 
@@ -808,12 +810,12 @@ export default function Dashboard() {
                     >
                       {typeof record[field] ===
                         "object" &&
-                      record[field] !== null
+                        record[field] !== null
                         ? record[field]?.Name ||
-                          "—"
+                        "—"
                         : String(
-                            record[field] ?? "—"
-                          )}
+                          record[field] ?? "—"
+                        )}
                     </td>
                   ))}
 
@@ -1050,12 +1052,12 @@ export default function Dashboard() {
                             .includes("date")
                             ? "date"
                             : field
-                                .toLowerCase()
-                                .includes(
-                                  "email"
-                                )
-                            ? "email"
-                            : "text"
+                              .toLowerCase()
+                              .includes(
+                                "email"
+                              )
+                              ? "email"
+                              : "text"
                         }
                         value={
                           formData[field] ||
@@ -1073,9 +1075,9 @@ export default function Dashboard() {
                           field === "LastName" ||
                           (
                             selectedObject ===
-                              "Lead" &&
+                            "Lead" &&
                             field ===
-                              "Company"
+                            "Company"
                           )
                         }
                         style={{
