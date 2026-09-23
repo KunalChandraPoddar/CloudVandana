@@ -1,6 +1,14 @@
 import React from "react";
 import Dashboard from "./Dashboard";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "http://localhost:8080";
+
+const handleConnect = () => {
+  window.location.href = `${API_BASE_URL}/api/auth/login`;
+};
+
 export default function App() {
   const path = window.location.pathname;
 
@@ -8,28 +16,46 @@ export default function App() {
     return <Dashboard />;
   }
 
-  const handleLoginRedirect = () => {
-    // Automatically uses localhost if you test on your machine, or your live Render backend for the recruiters
-    const backendUrl = window.location.hostname === "localhost"
-      ? "http://localhost:8080/api/auth/login"
-      : "https://onrender.com";
-    
-    window.location.href = backendUrl;
-  };
-
   return (
-    <div style={{
-      display: "flex", flexDirection: "column", alignItems: "center",
-      justifyContent: "center", height: "100vh", fontFamily: "sans-serif", backgroundColor: "#f9f9f9"
-    }}>
-      <div style={{ padding: "40px", background: "#fff", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)", textAlign: "center" }}>
-        <h2 style={{ margin: "0 0 16px 0", color: "#333" }}>CloudVandana Portal Gateway</h2>
-        <p style={{ color: "#666", marginBottom: "24px" }}>Please log in to synchronize your active Salesforce sandbox workspace.</p>
-        <button 
-          onClick={handleLoginRedirect}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        fontFamily: "sans-serif",
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      <div
+        style={{
+          padding: "40px",
+          background: "#fff",
+          borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          textAlign: "center",
+        }}
+      >
+        <h2 style={{ margin: "0 0 16px 0", color: "#333" }}>
+          CloudVandana Portal Gateway
+        </h2>
+
+        <p style={{ color: "#666", marginBottom: "24px" }}>
+          Please log in to synchronize your active Salesforce sandbox workspace.
+        </p>
+
+        <button
+          onClick={handleConnect}
           style={{
-            padding: "12px 24px", fontSize: "16px", backgroundColor: "#0070d2",
-            color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer", fontWeight: "bold"
+            padding: "12px 24px",
+            fontSize: "16px",
+            backgroundColor: "#0070d2",
+            color: "#fff",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontWeight: "bold",
           }}
         >
           Connect to Salesforce

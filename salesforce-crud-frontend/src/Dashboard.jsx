@@ -2,10 +2,17 @@ import React, { useState, useEffect, useCallback } from "react";
 
 const PAGE_SIZE = 10;
 // const API_BASE_URL = "http://localhost:8080/api/salesforce";
-const API_BASE_URL = window.location.hostname === "localhost"
-  ? "http://localhost:8080/api/salesforce"
-  : "https://onrender.com";
 
+// const API_BASE_URL = window.location.hostname === "localhost"
+//   ? "http://localhost:8080/api/salesforce"
+//   : "https://onrender.com";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "http://localhost:8080";
+
+const SALESFORCE_API_URL =
+  `${API_BASE_URL}/api/salesforce`;
 const OBJECT_FIELDS = {
   Account: ["Name", "Phone", "Industry", "Website", "Type"],
 

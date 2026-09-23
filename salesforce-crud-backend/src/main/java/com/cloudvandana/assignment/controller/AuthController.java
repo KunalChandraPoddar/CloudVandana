@@ -16,9 +16,18 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+// @CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(
+    origins = {
+        "http://localhost:5173",
+        "https://cloud-vandana-one.vercel.app"
+    }
+)
 @RequiredArgsConstructor
 public class AuthController {
+
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     @Value("${salesforce.client-id}")
     private String clientId;
@@ -75,12 +84,12 @@ public class AuthController {
                 accessToken = (String) body.get("access_token");
                 instanceUrl = (String) body.get("instance_url");
                 
-                return new RedirectView("http://localhost:5173/dashboard?auth=success");
+                return new RedirectView(frontendUrl + "/dashboard?auth=success");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new RedirectView("http://localhost:5173/?auth=failed");
+        return new RedirectView(frontendUrl + "/?auth=failed");
     }
 
     // Helper utility to generate standard SHA-256 Base64URL challenge values for PKCE validation
