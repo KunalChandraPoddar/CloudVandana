@@ -11,7 +11,13 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/api/salesforce")
-@CrossOrigin(origins = "http://localhost:5173")
+// @CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(
+    origins = {
+        "http://localhost:5173",
+        "https://cloud-vandana-one.vercel.app"
+    }
+)
 public class SalesforceCrudController {
 
     private final RestTemplate restTemplate;
