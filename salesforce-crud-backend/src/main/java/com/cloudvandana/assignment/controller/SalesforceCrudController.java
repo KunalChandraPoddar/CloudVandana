@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/api/salesforce")
-// @CrossOrigin(origins = "http://localhost:5173")
 @CrossOrigin(
     origins = {
         "http://localhost:5173",

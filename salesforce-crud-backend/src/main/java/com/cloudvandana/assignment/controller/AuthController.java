@@ -16,7 +16,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-// @CrossOrigin(origins = "http://localhost:5173")
 @CrossOrigin(
     origins = {
         "http://localhost:5173",
@@ -44,7 +43,6 @@ public class AuthController {
     private static String accessToken = "";
     private static String instanceUrl = "";
 
-    // PKCE requires us to use a static verifier string to sign our request tokens
     private static final String CODE_VERIFIER = "CloudVandanaASEProjectHandshakeChallengeSecureString1234567890";
     private static final String CODE_CHALLENGE = generateCodeChallenge(CODE_VERIFIER);
 
@@ -92,7 +90,6 @@ public class AuthController {
         return new RedirectView(frontendUrl + "/?auth=failed");
     }
 
-    // Helper utility to generate standard SHA-256 Base64URL challenge values for PKCE validation
     private static String generateCodeChallenge(String verifier) {
         try {
             byte[] bytes = verifier.getBytes(StandardCharsets.US_ASCII);

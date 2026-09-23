@@ -50,21 +50,13 @@ export default function Dashboard() {
   const [selectedObject, setSelectedObject] = useState("Account");
   const [records, setRecords] = useState([]);
 
-  // Pagination
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  // Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingRecord, setEditingRecord] = useState(null);
   const [formData, setFormData] = useState({});
-
-  /*
-   * ==========================================
-   * FETCH RECORDS
-   * ==========================================
-   */
 
   const fetchRecords = useCallback(
     async (objectName, currentOffset) => {
@@ -111,21 +103,9 @@ export default function Dashboard() {
     []
   );
 
-  /*
-   * ==========================================
-   * INITIAL LOAD / OBJECT / PAGINATION
-   * ==========================================
-   */
-
   useEffect(() => {
     fetchRecords(selectedObject, offset);
   }, [selectedObject, offset, fetchRecords]);
-
-  /*
-   * ==========================================
-   * CHANGE SALESFORCE OBJECT
-   * ==========================================
-   */
 
   const handleObjectChange = (e) => {
     const newObject = e.target.value;
@@ -133,12 +113,6 @@ export default function Dashboard() {
     setSelectedObject(newObject);
     setOffset(0);
   };
-
-  /*
-   * ==========================================
-   * NEXT PAGE
-   * ==========================================
-   */
 
   const handleNextPage = () => {
     if (!loading && hasMore) {
@@ -148,12 +122,6 @@ export default function Dashboard() {
     }
   };
 
-  /*
-   * ==========================================
-   * PREVIOUS PAGE
-   * ==========================================
-   */
-
   const handlePrevPage = () => {
     if (!loading && offset > 0) {
       setOffset(
@@ -162,12 +130,6 @@ export default function Dashboard() {
       );
     }
   };
-
-  /*
-   * ==========================================
-   * CREATE MODAL
-   * ==========================================
-   */
 
   const handleOpenCreate = () => {
     setEditingRecord(null);
@@ -186,11 +148,6 @@ export default function Dashboard() {
     setIsModalOpen(true);
   };
 
-  /*
-   * ==========================================
-   * EDIT MODAL
-   * ==========================================
-   */
 
   const handleOpenEdit = (record) => {
     setEditingRecord(record);
@@ -209,12 +166,6 @@ export default function Dashboard() {
     setIsModalOpen(true);
   };
 
-  /*
-   * ==========================================
-   * FORM INPUT
-   * ==========================================
-   */
-
   const handleInputChange = (e, field) => {
     setFormData((previousData) => ({
       ...previousData,
@@ -222,23 +173,11 @@ export default function Dashboard() {
     }));
   };
 
-  /*
-   * ==========================================
-   * CLOSE MODAL
-   * ==========================================
-   */
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingRecord(null);
     setFormData({});
   };
-
-  /*
-   * ==========================================
-   * FORMAT SALESFORCE ERROR
-   * ==========================================
-   */
 
   const getSalesforceErrorMessage = (responseText) => {
     if (!responseText) {
@@ -285,12 +224,6 @@ export default function Dashboard() {
     return errorMessage;
   };
 
-  /*
-   * ==========================================
-   * CREATE / UPDATE
-   * ==========================================
-   */
-
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
@@ -302,18 +235,10 @@ export default function Dashboard() {
 
     const method = isEditing ? "PATCH" : "POST";
 
-    /*
-     * Create clean payload.
-     */
-
     const payload = { ...formData };
 
     delete payload.Id;
     delete payload.CaseNumber;
-
-    /*
-     * Do not send empty values.
-     */
 
     Object.keys(payload).forEach((key) => {
       if (
@@ -395,12 +320,6 @@ export default function Dashboard() {
     }
   };
 
-  /*
-   * ==========================================
-   * DELETE RECORD
-   * ==========================================
-   */
-
   const handleDelete = async (recordId) => {
     const confirmed = window.confirm(
       "Are you sure you want to permanently delete this record?"
@@ -480,12 +399,6 @@ export default function Dashboard() {
     }
   };
 
-  /*
-   * ==========================================
-   * DISPLAYED RECORD NUMBERS
-   * ==========================================
-   */
-
   const firstRecordNumber =
     records.length > 0
       ? offset + 1
@@ -493,12 +406,6 @@ export default function Dashboard() {
 
   const lastRecordNumber =
     offset + records.length;
-
-  /*
-   * ==========================================
-   * RENDER
-   * ==========================================
-   */
 
   return (
     <div
